@@ -7,17 +7,17 @@ export default () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (ref.current) {
-      mount(ref.current, {
-        onNavigate: ({ pathname: nextPathname }) => {
-          const { pathname: currentPathname } = history.location;
+    const { onParentNavigate } = mount(ref.current, {
+      initialPathname: history.location.pathname,
+      onNavigate: ({ pathname: nextPathname }) => {
+        const { pathname } = history.location;
+        if (pathname !== nextPathname) {
+          history.push(nextPathname);
+        }
+      },
+    });
 
-          if (currentPathname !== nextPathname) {
-            history.push(nextPathname);
-          }
-        },
-      });
-    }
+    history.listen(onParentNavigate);
   }, [history]);
 
   return <div ref={ref} />;
