@@ -15,10 +15,7 @@ export default ({ onSignIn }) => {
           history.push(nextPathname);
         }
       },
-      onSignIn: () => {
-        onSignIn();
-        history.push('/');
-      },
+      onSignIn,
     });
 
     history.listen(onParentNavigate);
